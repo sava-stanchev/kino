@@ -29,12 +29,12 @@ const router = createBrowserRouter([
         element: <Register />,
       },
       {
+        path: "/books",
+        element: <Books />,
+      },
+      {
         element: <ProtectedRoutes />,
         children: [
-          {
-            path: "/books",
-            element: <Books />,
-          },
           {
             path: "/books/:id",
             element: <SingleBook />,
