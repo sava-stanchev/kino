@@ -2,6 +2,7 @@ package com.sava.kino.movie;
 
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -12,7 +13,20 @@ public class MovieService {
         this.movieRepo = movieRepo;
     }
 
-    public List<Movie> findAllMovies() {
-        return movieRepo.findAll();
+    public List<MovieResponse> findAllMovies() {
+        List<Movie> movies = movieRepo.findAll();
+        List<MovieResponse> res = new ArrayList<>();
+
+        for (Movie mov : movies) {
+            Long id = mov.getId();
+            String title = mov.getTitle();
+            String desc = mov.getDesc();
+            String posterUrl = mov.getPosterUrl();
+
+            MovieResponse movieRes = new MovieResponse(id, title, desc, posterUrl);
+            res.add(movieRes);
+        }
+
+        return res;
     }
 }

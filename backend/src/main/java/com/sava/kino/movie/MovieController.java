@@ -14,7 +14,7 @@ public class MovieController {
     }
 
     @GetMapping("/api/movies")
-    public List<Movie> getMovies() {
+    public List<MovieResponse> getMovies() {
         return movieSvc.findAllMovies();
     }
 }

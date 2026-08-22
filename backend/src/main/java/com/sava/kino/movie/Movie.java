@@ -37,4 +37,20 @@ public class Movie {
 
     @Column(name = "updated_at", nullable = false)
     private Instant updatedAt;
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public String getPosterUrl() {
+        return posterUrl;
+    }
 }
