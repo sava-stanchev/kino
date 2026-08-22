@@ -1,6 +1,6 @@
 import "src/App.css";
 import NavbarComponent from "src/components/Navbar";
-import Books from "src/pages/Books";
+import Movies from "src/pages/Movies";
 import Login from "src/pages/Login";
 import Register from "src/pages/Register";
 import SingleBook from "src/pages/SingleBook";
@@ -29,8 +29,8 @@ const router = createBrowserRouter([
         element: <Register />,
       },
       {
-        path: "/books",
-        element: <Books />,
+        path: "/movies",
+        element: <Movies />,
       },
       {
         element: <ProtectedRoutes />,

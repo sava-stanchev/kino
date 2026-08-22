@@ -1,3 +1,10 @@
+export interface Movie {
+  id: number,
+  title: string,
+  desc: string,
+  posterUrl: string;
+}
+
 export interface User {
   id: number;
   username: string;
