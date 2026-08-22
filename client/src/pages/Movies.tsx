@@ -22,7 +22,7 @@ const Movies: React.FC = () => {
 				if (!res.ok)
 					throw new Error(`Error: ${res.status}`);
 
-				const data = await res.json();
+				const data: Movie[] = await res.json();
 				setMovies(data);
 			} catch (err) {
 				console.error("Failed to fetch movies:", err);
@@ -33,6 +33,8 @@ const Movies: React.FC = () => {
 
 		fetchMovies();
 	}, []);
+
+	useEffect(() => { setPage(0); }, [search]);
 
 	const filtered = movies.filter((mov) =>
 		mov.title.toLowerCase().includes(search.toLowerCase()));
@@ -48,20 +50,20 @@ const Movies: React.FC = () => {
 			<>
 				<Row xs={1} sm={2} md={3} className="g-4 justify-content-center">
 					{pageMovies.map((mov) => (
-					<Col key={mov.id} className="d-flex justify-content-center">
-						<Card className="text-center" style={{ width: "18rem" }}>
-						<Card.Img variant="top" src={mov.posterUrl} alt={mov.title} />
-						<Card.Body className="d-flex flex-column justify-content-between">
-							<Card.Title>{mov.title}</Card.Title>
-							<Card.Text className="mov-card-desc">
-								{mov.desc}
-							</Card.Text>
-							<Button variant="primary" onClick={() => navigate(`/books/${mov.id}`)}>
-								View Details
-							</Button>
-						</Card.Body>
-						</Card>
-					</Col>
+						<Col key={mov.id} className="d-flex justify-content-center">
+							<Card className="text-center" style={{ width: "18rem" }}>
+							<Card.Img variant="top" src={mov.posterUrl} alt={mov.title} />
+							<Card.Body className="d-flex flex-column justify-content-between">
+								<Card.Title>{mov.title}</Card.Title>
+								<Card.Text className="mov-card-desc">
+									{mov.desc}
+								</Card.Text>
+								<Button variant="primary" onClick={() => navigate(`/books/${mov.id}`)}>
+									View Details
+								</Button>
+							</Card.Body>
+							</Card>
+						</Col>
 					))}
 				</Row>
 				<ReactPaginate
