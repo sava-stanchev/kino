@@ -35,22 +35,27 @@ const MovieDetail = () => {
         fetchMovie();
     }, [id]);
 
+    if (loading)
+        return <Container className="my-5"><Loader /></Container>;
+    if (err)
+        return <Container className="my-5"><p>{err}</p></Container>;
+    if (!movie)
+        return null;
+
     return (
         <Container className="my-5">
-            {loading ? (<Loader />) : err ? (<p>{err}</p>) : movie ? (
-                <Row className="d-flex flex-lg-row flex-column">
-                    <div className="d-flex d-lg-block col-lg-4 pe-lg-5 justify-content-center my-3 mb-lg-0">
-                        <img className="img-fluid border border-5" src={movie.posterUrl} alt={movie.title} />
-                    </div>
-                    <div className="col-lg-8 ps-lg-5 text-light">
-                        <h1>{movie.title}</h1>
-                        <h2>{movie.releaseDate ?? ""}</h2>
-                        <p>{movie.runtime !== null ? `${movie.runtime}m` : ""}</p>
-                        <p>Language: {movie.lang}</p>
-                        <p className="mov-desc">{movie.desc}</p>
-                    </div>
-                </Row>
-            ) : null}
+            <Row className="d-flex flex-lg-row flex-column">
+                <div className="d-flex d-lg-block col-lg-4 pe-lg-5 justify-content-center my-3 mb-lg-0">
+                    <img className="img-fluid border border-5" src={movie.posterUrl} alt={movie.title} />
+                </div>
+                <div className="col-lg-8 ps-lg-5 text-light">
+                    <h1>{movie.title}</h1>
+                    <h2>{movie.releaseDate ?? ""}</h2>
+                    <p>{movie.runtime !== null ? `${movie.runtime}m` : ""}</p>
+                    <p>Language: {movie.lang}</p>
+                    <p className="mov-desc">{movie.desc}</p>
+                </div>
+            </Row>
         </Container>
     );
 };
