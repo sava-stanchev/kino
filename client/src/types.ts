@@ -1,8 +1,18 @@
-export interface Movie {
-  id: number,
-  title: string,
-  desc: string,
-  posterUrl: string;
+export interface MovieResponse {
+    id: number;
+    title: string;
+    desc: string;
+    posterUrl: string;
+}
+
+export interface MovieDetailResponse {
+    id: number;
+    title: string;
+    desc: string;
+    posterUrl: string;
+    releaseDate: string | null;
+    runtime: number | null;
+    lang: string;
 }
 
 export interface User {
@@ -20,20 +30,6 @@ export interface ListedUser {
   is_admin: number;
   is_deleted: number;
   password: string;
-}
-
-export interface Book {
-  id: number;
-  title: string;
-  cover: string;
-  author: string;
-  avg_rating: number;
-  description: string;
-  genre: number;
-  is_deleted: number;
-  language: number;
-  num_ratings: number;
-  year: number;
 }
 
 export interface Review {

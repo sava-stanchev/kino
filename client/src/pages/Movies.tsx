@@ -5,11 +5,11 @@ import { useNavigate } from "react-router-dom";
 import { SPRING } from "src/common/constants";
 import Loader from "src/components/Loader";
 import Search from "src/components/Search";
-import { Movie } from "src/types";
+import { MovieResponse } from "src/types";
 
 const Movies: React.FC = () => {
 	const navigate = useNavigate();
-	const [movies, setMovies] = useState<Movie[]>([]);
+	const [movies, setMovies] = useState<MovieResponse[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [page, setPage] = useState(0);
 	const [search, setSearch] = useState("");
@@ -18,14 +18,14 @@ const Movies: React.FC = () => {
 	useEffect(() => {
 		const fetchMovies = async () => {
 			try {
-				const res = await fetch(`${SPRING}/api/movies`, { method: "GET" });
+				const res = await fetch(`${SPRING}/api/movies`);
 				if (!res.ok)
 					throw new Error(`Error: ${res.status}`);
 
-				const data: Movie[] = await res.json();
+				const data: MovieResponse[] = await res.json();
 				setMovies(data);
-			} catch (err) {
-				console.error("Failed to fetch movies:", err);
+			} catch (e) {
+				console.error("Failed to fetch movies:", e);
 			} finally {
 				setLoading(false);
 			}
@@ -58,7 +58,7 @@ const Movies: React.FC = () => {
 								<Card.Text className="mov-card-desc">
 									{mov.desc}
 								</Card.Text>
-								<Button variant="primary" onClick={() => navigate(`/books/${mov.id}`)}>
+								<Button variant="primary" onClick={() => navigate(`/movies/${mov.id}`)}>
 									View Details
 								</Button>
 							</Card.Body>

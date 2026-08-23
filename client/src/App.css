@@ -116,7 +116,7 @@ svg {
   fill: yellow;
 }
 
-.book-description {
+.mov-desc {
   overflow: hidden;
   display: -webkit-box;
   -webkit-line-clamp: 7;

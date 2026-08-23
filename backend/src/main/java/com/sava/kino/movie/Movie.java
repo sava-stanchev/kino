@@ -30,7 +30,7 @@ public class Movie {
     private String posterUrl;
 
     @Column(name = "original_language", nullable = false, length = 2)
-    private String ogLang;
+    private String lang;
 
     @Column(name = "created_at", nullable = false)
     private Instant createdAt;
@@ -58,8 +58,8 @@ public class Movie {
         return releaseDate;
     }
 
-    public String getOgLang() {
-        return ogLang;
+    public String getLang() {
+        return lang;
     }
 
     public Integer getRuntime() {

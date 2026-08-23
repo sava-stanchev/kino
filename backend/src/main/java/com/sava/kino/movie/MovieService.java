@@ -43,8 +43,8 @@ public class MovieService {
         String posterUrl = mov.getPosterUrl();
         LocalDate releaseDate = mov.getReleaseDate();
         Integer runtime = mov.getRuntime();
-        String ogLang = mov.getOgLang();
+        String lang = mov.getLang();
 
-        return new MovieDetailResponse(id, title, desc, posterUrl, releaseDate, runtime, ogLang);
+        return new MovieDetailResponse(id, title, desc, posterUrl, releaseDate, runtime, lang);
     }
 }
