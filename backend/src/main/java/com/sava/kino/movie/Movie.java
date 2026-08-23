@@ -24,7 +24,7 @@ public class Movie {
     private LocalDate releaseDate;
 
     @Column(name = "runtime_minutes")
-    private Integer runtimeMins;
+    private Integer runtime;
 
     @Column(name = "poster_url")
     private String posterUrl;
@@ -52,5 +52,17 @@ public class Movie {
 
     public String getPosterUrl() {
         return posterUrl;
+    }
+
+    public LocalDate getReleaseDate() {
+        return releaseDate;
+    }
+
+    public String getOgLang() {
+        return ogLang;
+    }
+
+    public Integer getRuntime() {
+        return runtime;
     }
 }
