@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Container, Row } from "react-bootstrap";
+import { Badge, Card, Col, Container, Row, Stack } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { SPRING } from "src/common/constants";
 import Loader from "src/components/Loader";
@@ -43,19 +43,50 @@ const MovieDetail = () => {
         return null;
 
     return (
-        <Container className="my-5">
-            <Row className="d-flex flex-lg-row flex-column">
-                <div className="d-flex d-lg-block col-lg-4 pe-lg-5 justify-content-center my-3 mb-lg-0">
-                    <img className="img-fluid border border-5" src={movie.posterUrl} alt={movie.title} />
-                </div>
-                <div className="col-lg-8 ps-lg-5 text-light">
-                    <h1>{movie.title}</h1>
-                    <h2>{movie.releaseDate ?? ""}</h2>
-                    <p>{movie.runtime !== null ? `${movie.runtime}m` : ""}</p>
-                    <p>Language: {movie.lang}</p>
-                    <p className="mov-desc">{movie.desc}</p>
-                </div>
-            </Row>
+        <Container className="my-5 py-3">
+            <Card bg="dark" border="secondary" className="shadow-lg text-light">
+                <Row className="g-0">
+                    <Col lg={4} className="d-flex align-items-center justify-content-center p-4 p-lg-5">
+                        <Card.Img
+                            src={movie.posterUrl}
+                            alt={movie.title}
+                            className="rounded shadow"
+                        />
+                    </Col>
+                    <Col lg={8}>
+                        <Card.Body className="h-100 d-flex flex-column justify-content-center p-4 p-lg-5">
+                            <Card.Subtitle className="mb-2 text-uppercase text-primary fw-semibold">
+                                Movie detail
+                            </Card.Subtitle>
+                            <Card.Title as="h1" className="display-5 fw-bold mb-4">
+                                {movie.title}
+                            </Card.Title>
+
+                            <Stack direction="horizontal" gap={2} className="flex-wrap mb-4">
+                                {movie.releaseDate && (
+                                    <Badge bg="secondary" className="px-3 py-2">
+                                        Released {movie.releaseDate}
+                                    </Badge>
+                                )}
+                                {movie.runtime !== null && (
+                                    <Badge bg="secondary" className="px-3 py-2">
+                                        {movie.runtime} min
+                                    </Badge>
+                                )}
+                                <Badge bg="primary" className="px-3 py-2">
+                                    Language: {movie.lang}
+                                </Badge>
+                            </Stack>
+
+                            <div className="border-start border-primary border-3 ps-3">
+                                <Card.Text className="mov-desc lead mb-0">
+                                    {movie.desc}
+                                </Card.Text>
+                            </div>
+                        </Card.Body>
+                    </Col>
+                </Row>
+            </Card>
         </Container>
     );
 };
