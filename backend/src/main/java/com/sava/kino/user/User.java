@@ -31,4 +31,28 @@ public class User {
     private Instant updatedAt;
 
     protected User(){}
+
+    public User(String username, String email, String pwHash, Instant createdAt, Instant updatedAt) {
+        this.username = username;
+        this.email = email;
+        this.pwHash = pwHash;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public UserRole getRole() {
+        return role;
+    }
 }
