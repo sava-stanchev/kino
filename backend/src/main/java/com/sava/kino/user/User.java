@@ -55,4 +55,8 @@ public class User {
     public UserRole getRole() {
         return role;
     }
+
+    public String getPwHash() {
+        return pwHash;
+    }
 }
