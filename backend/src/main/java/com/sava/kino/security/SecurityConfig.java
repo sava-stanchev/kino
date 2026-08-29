@@ -19,7 +19,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorize -> authorize
                 .requestMatchers(HttpMethod.GET, "/api/movies", "/api/movies/**", "/error")
                 .permitAll()
-                .requestMatchers(HttpMethod.POST, "/api/users").permitAll()
+                .requestMatchers(HttpMethod.POST, "/api/users", "/api/auth/login").permitAll()
                 .anyRequest().authenticated());
         return http.build();
     }
