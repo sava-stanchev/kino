@@ -2,6 +2,7 @@ import { useContext, useState, ChangeEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import decode from "jwt-decode";
+import { Card, Container, Form } from "react-bootstrap";
 import { SPRING } from "src/common/constants";
 import { AuthContext } from "src/utils/AuthContext";
 import AlertDismissible from "src/components/Alert";
@@ -50,58 +51,57 @@ const Login: React.FC = () => {
         }
     };
 
-  return (
-    <div className="d-flex justify-content-center align-items-center flex-fill bg-dark">
-      <AlertDismissible active={alert.active} msg={alert.msg} />
-      <div className="form-container p-5 rounded bg-light">
-        <form>
-          <h3 className="text-center">Sign In</h3>
-          <div className="mb-4">
-            <label htmlFor="username">Username</label>
-            <input
-              type="text"
-              id="username"
-              placeholder="Enter Username"
-              className="form-control"
-              value={formData.username}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="mb-4">
-            <label htmlFor="password">Password</label>
-            <div className="position-relative">
-              <input
-                type={showPassword ? "text" : "password"}
-                id="password"
-                placeholder="Enter Password"
-                className="form-control pe-5"
-                value={formData.password}
-                onChange={handleChange}
-              />
-              <button
-                type="button"
-                className="password-eye-icon"
-                onClick={togglePasswordVisibility}
-                aria-label="Toggle password visibility"
-              >
-                {showPassword ? <FaEyeSlash /> : <FaEye />}
-              </button>
-            </div>
-          </div>
-          <div className="d-grid">
-            <button
-              type="button"
-              className="btn btn-primary"
-              onClick={signIn}
-              disabled={!formData.username || !formData.password}
-            >
-              Sign In
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-  );
+    return (
+        <Container className="py-4 d-flex justify-content-center align-items-center">
+            <Card bg="dark" border="secondary" className="shadow-lg" style={{ width: "100%", maxWidth: "400px" }}>
+                <Card.Body className="p-3">
+                    <Card.Title as="h2" className="text-center mb-4 text-light fw-bold">Sign In</Card.Title>        
+                    <Form className="mb-3">
+                        <Form.Group className="mb-3">
+                            <Form.Label className="text-light fw-semibold">Username</Form.Label>
+                            <Form.Control
+                                type="text"
+                                id="username"
+                                placeholder="Enter username"
+                                value={formData.username}
+                                onChange={handleChange}
+                                className="form-control"
+                            />
+                        </Form.Group>
+                        <Form.Group className="mb-4 position-relative">
+                            <Form.Label className="text-light fw-semibold">Password</Form.Label>
+                            <div className="position-relative">
+                                <Form.Control
+                                    type={showPassword ? "text" : "password"}
+                                    id="password"
+                                    placeholder="Enter password"
+                                    value={formData.password}
+                                    onChange={handleChange}
+                                    className="form-control pe-5"
+                                />
+                                <button type="button" className="password-eye-icon text-secondary"
+                                    onClick={togglePasswordVisibility} aria-label="Toggle password visibility">
+                                    {showPassword ? <FaEyeSlash /> : <FaEye />}
+                                </button>
+                            </div>
+                        </Form.Group>
+                        <div className="d-grid gap-2 mt-4">
+                            <button type="button" className="btn btn-primary fw-semibold"
+                                onClick={signIn} disabled={!formData.username || !formData.password}>
+                                Sign In
+                            </button>
+                        </div>
+                    </Form>
+                </Card.Body>
+            </Card>
+
+            {alert.active && (
+                <div className="position-fixed top-0 end-0 me-3 mt-5" style={{ zIndex: 1050, maxWidth: "300px" }}>
+                    <AlertDismissible active={alert.active} msg={alert.msg} />
+                </div>
+            )}
+        </Container>
+    );
 };
 
 export default Login;

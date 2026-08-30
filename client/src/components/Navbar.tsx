@@ -28,52 +28,42 @@ const NavbarComponent: React.FC = () => {
 
     return (
         <>
-        <Navbar
-            bg="dark"
-            data-bs-theme="dark"
-            collapseOnSelect
-            expand="lg"
-            fixed="top"
-        >
-            <Container>
-            <Navbar.Brand as={Link} to="/">
-                BooksDB
-            </Navbar.Brand>
-            <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-            <Navbar.Collapse id="responsive-navbar-nav">
-                <Nav className="me-auto">
-                <Nav.Link as={Link} to="/">
-                    Home
-                </Nav.Link>
-                </Nav>
-                <Nav>
-                {user ? (
-                    <>
-                    {user.role === "ROLE_ADMIN" && (
-                        <Nav.Link as={Link} to="/users">
-                        Users
-                        </Nav.Link>
-                    )}
-                    <Nav.Link as={Link} to="/books">
-                        Books
-                    </Nav.Link>
-                    <Nav.Link onClick={signOut}>Log Out</Nav.Link>
-                    </>
-                ) : (
-                    <>
-                    <Nav.Link as={Link} to="/login">
-                        Login
-                    </Nav.Link>
-                    <Nav.Link as={Link} to="/register">
-                        Register
-                    </Nav.Link>
-                    </>
-                )}
-                </Nav>
-            </Navbar.Collapse>
-            </Container>
-        </Navbar>
-        <Outlet />
+            <Navbar bg="dark" data-bs-theme="dark" collapseOnSelect expand="lg">
+                <Container>
+                    <Navbar.Brand as={Link} to="/">
+                        Kino
+                    </Navbar.Brand>
+                    <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+                    <Navbar.Collapse id="responsive-navbar-nav">
+                        <Nav className="me-auto">
+                            <Nav.Link as={Link} to="/">Home</Nav.Link>
+                        </Nav>
+                        <Nav>
+                            {user ? (
+                                <>
+                                    {user.role === "ROLE_ADMIN" && (
+                                        <Nav.Link as={Link} to="/users">
+                                            Users
+                                        </Nav.Link>
+                                    )}
+                                    <Nav.Link as={Link} to="/movies">
+                                        Movies
+                                    </Nav.Link>
+                                    <Nav.Link onClick={signOut}>Log Out</Nav.Link>
+                                </>
+                            ) : (
+                                <>
+                                    <Nav.Link as={Link} to="/login">Login</Nav.Link>
+                                    <Nav.Link as={Link} to="/register">Register</Nav.Link>
+                                </>
+                            )}
+                        </Nav>
+                    </Navbar.Collapse>
+                </Container>
+            </Navbar>
+            <main>
+                <Outlet />
+            </main>
         </>
     );
 };

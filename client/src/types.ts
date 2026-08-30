@@ -40,8 +40,9 @@ export interface Review {
 }
 
 export interface AlertDismissibleProps {
-  active: boolean;
-  msg?: string;
+    active: boolean;
+    msg?: string;
+    onClose?: () => void;
 }
 
 export interface StarRatingProps {
