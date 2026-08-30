@@ -16,11 +16,10 @@ export interface MovieDetailResponse {
 }
 
 export interface User {
-  id: number;
-  username: string;
-  is_admin: number;
-  iat: number; // Issued at time
-  exp: number; // Expiration time
+    sub: string;
+    role: string;
+    iat: number;
+    exp: number;
 }
 
 export interface ListedUser {

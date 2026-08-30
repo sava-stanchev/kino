@@ -37,19 +37,7 @@ const Reviews: React.FC<ReviewsProps> = ({
         <h5 className="fw-bold">{review.username}</h5>
         <div className="d-flex gap-1 align-items-center">
           <span className="me-1">{review.date_created.split("T")[0]}</span>
-          {user.id === review.user_id && (
-            <OverlayTrigger placement="top" overlay={<Tooltip>Edit</Tooltip>}>
-              <button
-                type="button"
-                className="icon edit-icon"
-                onClick={() => setShow(true)}
-                aria-label="Edit review"
-              >
-                <FaEdit />
-              </button>
-            </OverlayTrigger>
-          )}
-          {user.is_admin === 1 && (
+          {user.role === "ROLE_ADMIN" && (
             <OverlayTrigger placement="top" overlay={<Tooltip>Delete</Tooltip>}>
               <button
                 type="button"

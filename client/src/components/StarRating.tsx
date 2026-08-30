@@ -50,7 +50,7 @@ export default function StarRating({
           "Content-Type": "application/json",
           authorization: `bearer ${localStorage.getItem("token")}`,
         },
-        body: JSON.stringify({ newRating, user }),
+        body: JSON.stringify({ newRating }),
       });
 
       if (!response.ok) {

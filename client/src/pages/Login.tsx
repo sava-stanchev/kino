@@ -2,53 +2,53 @@ import { useContext, useState, ChangeEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import decode from "jwt-decode";
-import { HOST } from "src/common/constants";
+import { SPRING } from "src/common/constants";
 import { AuthContext } from "src/utils/AuthContext";
 import AlertDismissible from "src/components/Alert";
 import { AlertDismissibleProps, User } from "src/types";
 
 const Login: React.FC = () => {
-  const navigate = useNavigate();
-  const auth = useContext(AuthContext);
+    const navigate = useNavigate();
+    const auth = useContext(AuthContext);
 
-  const [formData, setFormData] = useState({ username: "", password: "" });
-  const [showPassword, setShowPassword] = useState(false);
-  const [alert, setAlert] = useState<AlertDismissibleProps>({
-    active: false,
-    message: "",
-  });
+    const [formData, setFormData] = useState({ username: "", password: "" });
+    const [showPassword, setShowPassword] = useState(false);
+    const [alert, setAlert] = useState<AlertDismissibleProps>({
+        active: false,
+        message: "",
+    });
 
-  const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
+    const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { id, value } = e.target;
-    setFormData((prev) => ({ ...prev, [id]: value }));
-  };
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+        const { id, value } = e.target;
+        setFormData((prev) => ({ ...prev, [id]: value }));
+    };
 
-  const signIn = async () => {
-    setAlert({ active: false, message: "" });
-    try {
-      const response = await fetch(`${HOST}/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
+    const signIn = async () => {
+        setAlert({ active: false, message: "" });
 
-      const result = await response.json();
-      if (!response.ok) {
-        throw new Error(result.message || "Failed to authenticate");
-      }
+        try {
+            const res = await fetch(`${SPRING}/api/auth/login`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(formData),
+            });
 
-      localStorage.clear();
-      localStorage.setItem("token", result.token);
-      const user = decode(result.token) as User;
-      auth.setUser(user);
-      navigate("/");
-    } catch (error: any) {
-      console.error(error.message);
-      setAlert({ active: true, message: error.message });
-    }
-  };
+            const data = await res.json();
+            if (!res.ok) 
+                throw new Error(data.message || "Failed to authenticate");
+
+            localStorage.clear();
+            localStorage.setItem("token", data.token);
+            const user = decode(data.token) as User;
+            auth.setUser(user);
+            navigate("/");
+        } catch (error: any) {
+            console.error(error.message);
+            setAlert({ active: true, message: error.message });
+        }
+    };
 
   return (
     <div className="d-flex justify-content-center align-items-center flex-fill bg-dark">

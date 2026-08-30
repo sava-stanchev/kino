@@ -4,17 +4,17 @@ import { Button } from "react-bootstrap";
 import { AuthContext } from "src/utils/AuthContext";
 
 const HomePage = () => {
-  const { user } = useContext(AuthContext);
+    const { user } = useContext(AuthContext);
 
-  return (
-    <div className="home-page-background">
-      <Link to={user ? "/books" : "/login"}>
-        <Button variant="warning" size="lg">
-          Enter The Book Database
-        </Button>
-      </Link>
-    </div>
-  );
+    return (
+        <div className="home-page-background">
+            <Link to={user ? "/movies" : "/login"}>
+                <Button variant="warning" size="lg">
+                    Movies
+                </Button>
+            </Link>
+        </div>
+    );
 };
 
 export default HomePage;
