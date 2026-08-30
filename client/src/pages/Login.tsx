@@ -15,7 +15,7 @@ const Login: React.FC = () => {
     const [showPassword, setShowPassword] = useState(false);
     const [alert, setAlert] = useState<AlertDismissibleProps>({
         active: false,
-        message: "",
+        msg: "",
     });
 
     const togglePasswordVisibility = () => setShowPassword((prev) => !prev);
@@ -26,7 +26,7 @@ const Login: React.FC = () => {
     };
 
     const signIn = async () => {
-        setAlert({ active: false, message: "" });
+        setAlert({ active: false, msg: "" });
 
         try {
             const res = await fetch(`${SPRING}/api/auth/login`, {
@@ -46,13 +46,13 @@ const Login: React.FC = () => {
             navigate("/");
         } catch (error: any) {
             console.error(error.message);
-            setAlert({ active: true, message: error.message });
+            setAlert({ active: true, msg: error.message });
         }
     };
 
   return (
     <div className="d-flex justify-content-center align-items-center flex-fill bg-dark">
-      <AlertDismissible active={alert.active} message={alert.message} />
+      <AlertDismissible active={alert.active} msg={alert.msg} />
       <div className="form-container p-5 rounded bg-light">
         <form>
           <h3 className="text-center">Sign In</h3>
