@@ -18,7 +18,10 @@ const Movies: React.FC = () => {
 	useEffect(() => {
 		const fetchMovies = async () => {
 			try {
-				const res = await fetch(`${SPRING}/api/movies`);
+				const res = await fetch(`${SPRING}/api/movies`, {
+					headers: {Authorization: `Bearer ${localStorage.getItem("token")}`}
+				});
+
 				if (!res.ok)
 					throw new Error(`Error: ${res.status}`);
 

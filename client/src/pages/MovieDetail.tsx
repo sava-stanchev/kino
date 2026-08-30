@@ -17,7 +17,10 @@ const MovieDetail = () => {
                 setLoading(true);
                 setErr(null);
 
-                const res = await fetch(`${SPRING}/api/movies/${id}`);
+                const res = await fetch(`${SPRING}/api/movies/${id}`, {
+					headers: {Authorization: `Bearer ${localStorage.getItem("token")}`}
+				});
+                
                 if (res.status === 404)
                     throw new Error('movie not found');
                 if (!res.ok)
