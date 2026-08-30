@@ -6,10 +6,10 @@ import Register from "src/pages/Register";
 import MovieDetail from "src/pages/MovieDetail";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import Users from "src/pages/Users";
-import Home from "src/pages/Home";
 import ProtectedRoutes from "src/utils/ProtectedRoutes";
 import Error404 from "src/pages/Error404";
 import AuthContextProvider from "src/utils/AuthContext";
+import HomeRedirect from "./components/HomeRedirect";
 
 const router = createBrowserRouter([
     {
@@ -18,7 +18,7 @@ const router = createBrowserRouter([
         children: [
             {
                 path: "/",
-                element: <Home />,
+                element: <HomeRedirect />,
             },
             {
                 path: "/login",
