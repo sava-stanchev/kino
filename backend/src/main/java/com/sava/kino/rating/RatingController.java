@@ -18,8 +18,6 @@ public class RatingController {
     @PutMapping("/api/movies/{movieId}/rating")
     public RatingResponse rateMovie(@PathVariable Long movieId,
                                @Valid @RequestBody RatingRequest req, Authentication auth) {
-        Rating rating = ratingSvc.rateMovie(movieId, req.score(), auth.getName());
-        return new RatingResponse(rating.getId(), rating.getMovie().getId(), rating.getScore(),
-                rating.getCreatedAt(), rating.getUpdatedAt());
+        return ratingSvc.rateMovie(movieId, req.score(), auth.getName());
     }
 }

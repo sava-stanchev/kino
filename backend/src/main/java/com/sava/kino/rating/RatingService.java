@@ -25,7 +25,7 @@ public class RatingService {
     }
 
     @Transactional
-    public Rating rateMovie(Long movieId, Short score, String username) {
+    public RatingResponse rateMovie(Long movieId, Short score, String username) {
         if (score == null || score < 1 || score > 5)
             throw new IllegalArgumentException("Score must be between 1 and 5");
 
@@ -46,6 +46,10 @@ public class RatingService {
             rating = new Rating(user, movie, score, now, now);
         }
 
-        return ratingRepo.save(rating);
+        ratingRepo.save(rating);
+
+        Double avgRating = ratingRepo.avg(movie.getId());
+        Long ratingCnt = ratingRepo.countByMovie_Id(movie.getId());
+        return new RatingResponse(rating.getId(), movie.getId(), rating.getScore(), avgRating, ratingCnt);
     }
 }
