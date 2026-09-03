@@ -2,10 +2,7 @@ package com.sava.kino.rating;
 
 import jakarta.validation.Valid;
 import org.springframework.security.core.Authentication;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class RatingController {
@@ -19,5 +16,10 @@ public class RatingController {
     public RatingResponse rateMovie(@PathVariable Long movieId,
                                @Valid @RequestBody RatingRequest req, Authentication auth) {
         return ratingSvc.rateMovie(movieId, req.score(), auth.getName());
+    }
+
+    @GetMapping("/api/movies/{movieId}/rating")
+    public RatingSummaryResponse getMovieRating(@PathVariable Long movieId, Authentication auth) {
+        return ratingSvc.getMovieRating(movieId, auth.getName());
     }
 }

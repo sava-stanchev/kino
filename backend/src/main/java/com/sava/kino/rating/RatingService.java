@@ -52,4 +52,19 @@ public class RatingService {
         Long ratingCnt = ratingRepo.countByMovie_Id(movie.getId());
         return new RatingResponse(rating.getId(), movie.getId(), rating.getScore(), avgRating, ratingCnt);
     }
+
+    @Transactional(readOnly = true)
+    public RatingSummaryResponse getMovieRating(Long movieId, String username) {
+        if (!movieRepo.existsById(movieId))
+            throw new MovieNotFoundException();
+
+        User user = userRepo.findByUsernameIgnoreCase(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found: " + username));
+        Double avgRating = ratingRepo.avg(movieId);
+        Long ratingCnt = ratingRepo.countByMovie_Id(movieId);
+        Short currUserRating = ratingRepo.findByUser_IdAndMovie_Id(user.getId(), movieId)
+                .map(rating -> rating.getScore()).orElse(null);
+
+        return new RatingSummaryResponse(avgRating, ratingCnt, currUserRating);
+    }
 }
