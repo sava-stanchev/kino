@@ -1,6 +1,6 @@
 import { JSX, useState } from "react";
-import { HOST } from "src/common/constants";
-import { StarRatingProps } from "src/types";
+import { SPRING } from "src/common/constants";
+import { RatingMutationRes, StarRatingProps } from "src/types";
 
 function Star({ filled }: { filled: boolean }): JSX.Element {
   const starClass = `star-icon${filled ? " star-icon-filled" : ""}`;
@@ -24,72 +24,52 @@ function Star({ filled }: { filled: boolean }): JSX.Element {
 }
 
 export default function StarRating({
-  value,
-  rating,
-  setRating,
-  numRatings,
-  setNumRatings,
-  id,
-  user,
-  disabled,
-  setUserBookRating,
+    movieId, avgRating, ratingCnt, currUserRating, onRatingUpdated
 }: StarRatingProps): JSX.Element {
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+    const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
+    const handleMouseEnter = (idx: number): void => setHoveredIdx(idx);
+    const handleMouseLeave = (): void => setHoveredIdx(null);
 
-  const handleMouseEnter = (index: number): void => setHoveredIndex(index);
-  const handleMouseLeave = (): void => setHoveredIndex(null);
+    const handleClick = async (idx: number): Promise<void> => {
+        const score = idx + 1;
 
-  const handleClick = async (index: number): Promise<void> => {
-    if (disabled) return;
-    const newRating = index + 1;
+        try {
+            const res = await fetch(`${SPRING}/api/movies/${movieId}/rating`, {
+                method: "PUT",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+                body: JSON.stringify({ score }),
+            });
 
-    try {
-      const response = await fetch(`${HOST}/books/${id}/rating`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          authorization: `bearer ${localStorage.getItem("token")}`,
-        },
-        body: JSON.stringify({ newRating }),
-      });
+            if (!res.ok)
+                throw new Error(`Failed to update rating: ${res.status}`);
 
-      if (!response.ok) {
-        throw new Error(`Failed to update rating: ${response.status}`);
-      }
-
-      const { avg_rating, num_ratings } = await response.json();
-      setRating(avg_rating);
-      setNumRatings(num_ratings);
-      setUserBookRating(newRating);
-    } catch (error: any) {
-      console.error(error.message);
-    }
-  };
-
-  const renderedStars = Array.from({ length: 5 }, (_, index) => (
-    <span
-      key={index}
-      tabIndex={0}
-      onMouseEnter={() => !disabled && handleMouseEnter(index)}
-      onMouseLeave={handleMouseLeave}
-      onClick={() => handleClick(index)}
-      style={{ pointerEvents: disabled ? "none" : "auto" }}
-    >
-      <Star
-        filled={
-          !disabled && hoveredIndex != null
-            ? index <= hoveredIndex
-            : index < Math.round(value ?? 0)
+            const data: RatingMutationRes = await res.json();
+            onRatingUpdated(data);
+        } catch (e) {
+            console.error(e);
         }
-      />
-    </span>
-  ));
+    };
 
-  return (
-    <div className="d-flex align-items-center">
-      {renderedStars}
-      <span className="mx-3 fw-bold fs-3">{(rating ?? 0).toFixed(2)}</span>
-      <span>{numRatings} ratings</span>
-    </div>
-  );
+    const renderedStars = Array.from({ length: 5 }, (_, idx) => (
+        <span
+            key={idx}
+            tabIndex={0}
+            onMouseEnter={() => handleMouseEnter(idx)}
+            onMouseLeave={handleMouseLeave}
+            onClick={() => handleClick(idx)}
+        >
+            <Star filled={hoveredIdx != null ? idx <= hoveredIdx : idx < (currUserRating ?? 0)} />
+        </span>
+    ));
+
+    return (
+        <div className="d-flex align-items-center">
+            {renderedStars}
+            <span className="mx-3 fw-bold fs-3">{avgRating.toFixed(2)}</span>
+            <span>{ratingCnt} ratings</span>
+        </div>
+    );
 }

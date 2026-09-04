@@ -3,13 +3,17 @@ import { Badge, Card, Col, Container, Row, Stack } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { SPRING } from "src/common/constants";
 import Loader from "src/components/Loader";
-import { MovieDetailResponse } from "src/types";
+import StarRating from "src/components/StarRating";
+import { MovieDetailResponse, MovieRatingSummary } from "src/types";
 
 const MovieDetail = () => {
     const { id } = useParams<{ id: string }>();
     const [movie, setMovie] = useState<MovieDetailResponse | null>(null);
     const [loading, setLoading] = useState(true);
     const [err, setErr] = useState<string | null>(null);
+    const [avgRating, setAvgRating] = useState(0);
+    const [ratingCnt, setRatingCnt] = useState(0);
+    const [currUserRating, setCurrUserRating] = useState<number | null>(null);
 
     useEffect(() => {
         const fetchMovie = async () => {
@@ -17,17 +21,27 @@ const MovieDetail = () => {
                 setLoading(true);
                 setErr(null);
 
-                const res = await fetch(`${SPRING}/api/movies/${id}`, {
-					headers: {Authorization: `Bearer ${localStorage.getItem("token")}`}
-				});
-                
-                if (res.status === 404)
-                    throw new Error('movie not found');
-                if (!res.ok)
+                const tok = localStorage.getItem("token");
+                const [movieRes, ratingRes] = await Promise.all([
+                    fetch(`${SPRING}/api/movies/${id}`, {
+                        headers: {Authorization: `Bearer ${tok}`}
+                    }),
+                    fetch(`${SPRING}/api/movies/${id}/rating`, {
+                        headers: {Authorization: `Bearer ${tok}`}
+                    }),
+                ]);
+
+                if (movieRes.status === 404)
+                    throw new Error("movie not found");
+                if (!movieRes.ok || !ratingRes.ok)
                     throw new Error("unable to load movie");
 
-                const data: MovieDetailResponse = await res.json();
-                setMovie(data);
+                const movieData: MovieDetailResponse = await movieRes.json();
+                const ratingData: MovieRatingSummary = await ratingRes.json();       
+                setMovie(movieData);
+                setAvgRating(ratingData.avgRating);
+                setRatingCnt(ratingData.ratingCnt);
+                setCurrUserRating(ratingData.currUserRating);
             } catch (e) {
                 setErr(e instanceof Error ? e.message : "unable to load movie");
             } finally {
@@ -80,6 +94,16 @@ const MovieDetail = () => {
                                     Language: {movie.lang}
                                 </Badge>
                             </Stack>
+
+                            <div className="mb-4">
+                                <StarRating movieId={movie.id} avgRating={avgRating} ratingCnt={ratingCnt}
+                                    currUserRating={currUserRating} onRatingUpdated={(data) => {
+                                        setCurrUserRating(data.score);
+                                        setAvgRating(data.avgRating);
+                                        setRatingCnt(data.ratingCnt);
+                                    }}
+                                />
+                            </div>
 
                             <div className="border-start border-primary border-3 ps-3">
                                 <Card.Text className="mov-desc lead mb-0">

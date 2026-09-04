@@ -45,14 +45,22 @@ export interface AlertDismissibleProps {
     onClose?: () => void;
 }
 
+export interface MovieRatingSummary {
+	avgRating: number;
+	ratingCnt: number;
+	currUserRating: number | null;
+}
+
+export interface RatingMutationRes {
+	score: number;
+	avgRating: number;
+	ratingCnt: number;
+}
+
 export interface StarRatingProps {
-  value: number | null;
-  rating: number | null;
-  setRating: (rating: number) => void;
-  numRatings: number | null;
-  setNumRatings: (numRatings: number) => void;
-  id: string;
-  user: User;
-  disabled: boolean;
-  setUserBookRating: (rating: number) => void;
+	movieId: number;
+	avgRating: number;
+	ratingCnt: number;
+	currUserRating: number | null;
+	onRatingUpdated: (result: RatingMutationRes) => void;
 }
