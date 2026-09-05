@@ -67,7 +67,7 @@ public class ReviewService {
     }
 
     @Transactional(readOnly = true)
-    public List<ReviewResponse> getReviewsForMovie(Long movieId) {
+    public List<ReviewResponse> getReviews(Long movieId) {
         if (!movieRepo.existsById(movieId))
             throw new MovieNotFoundException();
         List<Review> reviews = reviewRepo.findByMovie_IdOrderByCreatedAtDesc(movieId);
