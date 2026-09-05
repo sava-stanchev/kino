@@ -57,6 +57,7 @@ export default function StarRating({
         <span
             key={idx}
             tabIndex={0}
+            className="d-inline-flex"
             onMouseEnter={() => handleMouseEnter(idx)}
             onMouseLeave={handleMouseLeave}
             onClick={() => handleClick(idx)}
@@ -66,10 +67,12 @@ export default function StarRating({
     ));
 
     return (
-        <div className="d-flex align-items-center">
-            {renderedStars}
-            <span className="mx-3 fw-bold fs-3">{avgRating.toFixed(2)}</span>
-            <span>{ratingCnt} ratings</span>
+        <div className="d-flex flex-wrap align-items-center gap-3">
+            <div className="d-flex align-items-center gap-1">
+                {renderedStars}
+            </div>
+            <span className="fw-bold fs-3 lh-1">{avgRating.toFixed(2)}</span>
+            <span className="text-secondary">{ratingCnt} ratings</span>
         </div>
     );
 }
