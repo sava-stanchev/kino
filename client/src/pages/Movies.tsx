@@ -5,11 +5,11 @@ import { useNavigate } from "react-router-dom";
 import { SPRING } from "src/common/constants";
 import Loader from "src/components/Loader";
 import Search from "src/components/Search";
-import { MovieResponse } from "src/types";
+import { Movie } from "src/types";
 
 const Movies: React.FC = () => {
 	const navigate = useNavigate();
-	const [movies, setMovies] = useState<MovieResponse[]>([]);
+	const [movies, setMovies] = useState<Movie[]>([]);
 	const [loading, setLoading] = useState(true);
 	const [page, setPage] = useState(0);
 	const [search, setSearch] = useState("");
@@ -25,7 +25,7 @@ const Movies: React.FC = () => {
 				if (!res.ok)
 					throw new Error(`Error: ${res.status}`);
 
-				const data: MovieResponse[] = await res.json();
+				const data: Movie[] = await res.json();
 				setMovies(data);
 			} catch (e) {
 				console.error("Failed to fetch movies:", e);

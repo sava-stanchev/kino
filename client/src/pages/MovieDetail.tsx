@@ -3,6 +3,7 @@ import { Badge, Card, Col, Container, Row, Stack } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { SPRING } from "src/common/constants";
 import Loader from "src/components/Loader";
+import MovieReviews from "src/components/MovieReviews";
 import StarRating from "src/components/StarRating";
 import { MovieDetailResponse, MovieRatingSummary } from "src/types";
 
@@ -114,6 +115,7 @@ const MovieDetail = () => {
                     </Col>
                 </Row>
             </Card>
+            <MovieReviews movieId={movie.id} />
         </Container>
     );
 };

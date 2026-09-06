@@ -1,4 +1,4 @@
-export interface MovieResponse {
+export interface Movie {
     id: number;
     title: string;
     desc: string;
@@ -32,11 +32,12 @@ export interface ListedUser {
 }
 
 export interface Review {
-  id: number;
-  username: string;
-  date_created: string;
-  content: string;
-  user_id: number;
+    id: number;
+    movieId: number;
+    username: string;
+    content: string;
+    createdAt: string;
+    updatedAt: string;
 }
 
 export interface AlertDismissibleProps {
