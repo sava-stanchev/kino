@@ -35,7 +35,12 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public List<UserResponse> findAllUsers() {
+    public List<UserResponse> findAllUsers(Authentication auth) {
+        boolean isAdmin = auth.getAuthorities().stream().anyMatch(authority ->
+                authority.getAuthority().equals("ROLE_ADMIN"));
+        if (!isAdmin)
+            throw new UserForbiddenException();
+
         List<User> users = userRepo.findAllByOrderByUsernameAsc();
         List<UserResponse> res = new ArrayList<>();
 
