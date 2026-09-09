@@ -3,8 +3,11 @@ import { Navigate } from "react-router-dom";
 import { AuthContext } from "src/utils/AuthContext"
 
 const HomeRedirect = () => {
-    const {user} = useContext(AuthContext);
-    return <Navigate to={user ? "/movies" : "/login"} replace />;
+    const { status } = useContext(AuthContext);
+    if (status === "init")
+        return null;
+
+    return <Navigate to={status === "authed" ? "/movies" : "/login"} replace />;
 }
 
 export default HomeRedirect;

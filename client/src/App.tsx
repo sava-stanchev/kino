@@ -29,16 +29,16 @@ const router = createBrowserRouter([
                 element: <Register />,
             },
             {
-                path: "/movies",
-                element: <Movies />,
-            },
-            {
-                path: "/movies/:id",
-                element: <MovieDetail />,
-            },
-            {
                 element: <ProtectedRoutes />,
                 children: [
+                    {
+                        path: "/movies",
+                        element: <Movies />,
+                    },
+                    {
+                        path: "/movies/:id",
+                        element: <MovieDetail />,
+                    },
                     {
                         path: "/users",
                         element: <Users />,
